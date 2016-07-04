@@ -15,6 +15,7 @@
 		089FD3B31D2AB9D300D6603F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 089FD3B11D2AB9D300D6603F /* LaunchScreen.storyboard */; };
 		089FD3BE1D2AB9D300D6603F /* BluetoothTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 089FD3BD1D2AB9D300D6603F /* BluetoothTestTests.m */; };
 		089FD3C91D2AB9D300D6603F /* BluetoothTestUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 089FD3C81D2AB9D300D6603F /* BluetoothTestUITests.m */; };
+		089FD3D81D2ABE9D00D6603F /* NSDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 089FD3D71D2ABE9D00D6603F /* NSDateHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		089FD3C41D2AB9D300D6603F /* BluetoothTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		089FD3C81D2AB9D300D6603F /* BluetoothTestUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothTestUITests.m; sourceTree = "<group>"; };
 		089FD3CA1D2AB9D300D6603F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		089FD3D61D2ABE9D00D6603F /* NSDateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDateHelper.h; sourceTree = "<group>"; };
+		089FD3D71D2ABE9D00D6603F /* NSDateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,8 @@
 		089FD3A21D2AB9D300D6603F /* BluetoothTest */ = {
 			isa = PBXGroup;
 			children = (
+				089FD3D61D2ABE9D00D6603F /* NSDateHelper.h */,
+				089FD3D71D2ABE9D00D6603F /* NSDateHelper.m */,
 				089FD3A61D2AB9D300D6603F /* AppDelegate.h */,
 				089FD3A71D2AB9D300D6603F /* AppDelegate.m */,
 				089FD3A91D2AB9D300D6603F /* ViewController.h */,
@@ -270,6 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				089FD3D81D2ABE9D00D6603F /* NSDateHelper.m in Sources */,
 				089FD3AB1D2AB9D300D6603F /* ViewController.m in Sources */,
 				089FD3A81D2AB9D300D6603F /* AppDelegate.m in Sources */,
 				089FD3A51D2AB9D300D6603F /* main.m in Sources */,
