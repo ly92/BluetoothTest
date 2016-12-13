@@ -212,6 +212,7 @@
 				TargetAttributes = {
 					089FD39F1D2AB9D300D6603F = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = ZW9XLD4957;
 					};
 					089FD3B81D2AB9D300D6603F = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -419,6 +420,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = ZW9XLD4957;
 				INFOPLIST_FILE = BluetoothTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ly.BluetoothTest;
@@ -430,6 +432,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = ZW9XLD4957;
 				INFOPLIST_FILE = BluetoothTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ly.BluetoothTest;
@@ -502,6 +505,7 @@
 				089FD3CF1D2AB9D300D6603F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		089FD3D01D2AB9D300D6603F /* Build configuration list for PBXNativeTarget "BluetoothTestTests" */ = {
 			isa = XCConfigurationList;
@@ -510,6 +514,7 @@
 				089FD3D21D2AB9D300D6603F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		089FD3D31D2AB9D300D6603F /* Build configuration list for PBXNativeTarget "BluetoothTestUITests" */ = {
 			isa = XCConfigurationList;
@@ -518,6 +523,7 @@
 				089FD3D51D2AB9D300D6603F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
