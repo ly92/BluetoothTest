@@ -15,10 +15,6 @@
 
 #import "NSDateHelper.h"
 
-//正式
-//static NSString * const kServiceUUID = @"0000FFF0-0000-1000-8000-00805F9B34FB";
-//static NSString * const kCharacteristicUUID = @"0000FFF1-0000-1000-8000-00805F9B34FB";
-
 //write demo
 static NSString * const kServiceUUID = @"FFE0";
 static NSString * const kCharacteristicUUID = @"FFE1";
@@ -26,15 +22,11 @@ static NSString * const kCharacteristicUUID = @"FFE1";
 #define CHAR_UUID        0xFFE1
 
 @interface ViewController ()<CBCentralManagerDelegate,CBPeripheralDelegate>
-
-
 @property (nonatomic, retain) CBCentralManager *mgr;//中心设备管理者
 @property (nonatomic, retain) CBPeripheral *myPeripheral;//选中的外设
 @property (nonatomic, retain) CBService *service;//服务
 @property (nonatomic, retain) CBCharacteristic *characteristic;//特征
 @property (nonatomic, retain) NSArray *doorArray;
-
-
 @end
 
 @implementation ViewController
@@ -57,13 +49,11 @@ static NSString * const kCharacteristicUUID = @"FFE1";
 }
 - (IBAction)openDoor {
     
-    //通过蓝牙开门
-    
-            //创建中心管理者，管理中心设备
-            self.mgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-            //通过蓝牙开门
-            [self cleanup];
-            [self.mgr scanForPeripheralsWithServices:nil options:nil];
+    //创建中心管理者，管理中心设备
+    self.mgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    [self cleanup];
+    //开始搜索蓝牙设备
+    [self.mgr scanForPeripheralsWithServices:nil options:nil];
     
 }
 
@@ -88,7 +78,6 @@ static NSString * const kCharacteristicUUID = @"FFE1";
         if (self.characteristic.isNotifying)
         {
             [self.myPeripheral setNotifyValue:NO forCharacteristic:self.characteristic];
-            
         }
     }
     
@@ -108,23 +97,18 @@ static NSString * const kCharacteristicUUID = @"FFE1";
     
     switch (central.state) {
         case CBCentralManagerStateUnsupported:
-//            [[WTAppDelegate sharedAppDelegate] showErrMsg:@"该设备不支持BLE蓝牙" WithInterval:1.0];
             NSLog(@"该设备不支持BLE蓝牙");
             break;
         case CBCentralManagerStateUnauthorized:
-//            [[WTAppDelegate sharedAppDelegate] showErrMsg:@"该设备未授权BLE蓝牙" WithInterval:1.0];
             NSLog(@"该设备未授权BLE蓝牙");
             break;
         case CBCentralManagerStatePoweredOff:
-//            [[WTAppDelegate sharedAppDelegate] showErrMsg:@"该设备BLE蓝牙已关闭" WithInterval:1.0];
             NSLog(@"该设备BLE蓝牙已关闭");
             break;
         case CBCentralManagerStateUnknown:
-//            [[WTAppDelegate sharedAppDelegate] showErrMsg:@"该设备BLE蓝牙发生未知错误" WithInterval:1.0];
             NSLog(@"该设备BLE蓝牙发生未知错误");
             break;
         case CBCentralManagerStateResetting:
-//            [[WTAppDelegate sharedAppDelegate] showErrMsg:@"该设备BLE蓝牙重置中" WithInterval:1.0];
             NSLog(@"该设备BLE蓝牙重置中");
             break;
         case CBCentralManagerStatePoweredOn:
@@ -143,17 +127,16 @@ static NSString * const kCharacteristicUUID = @"FFE1";
 {
     NSString *periName = peripheral.name;
     
-           self.myPeripheral = peripheral;
-        //连接设备
-        [self.mgr connectPeripheral:self.myPeripheral options:nil];
-        //停止扫描蓝牙
-        [self.mgr stopScan];
+    self.myPeripheral = peripheral;
+    //连接设备
+    [self.mgr connectPeripheral:self.myPeripheral options:nil];
+    //停止扫描蓝牙
+    [self.mgr stopScan];
 }
 
 //连接蓝牙成功
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-    
     //发现服务
     self.myPeripheral .delegate = self;
     [self.myPeripheral  discoverServices:nil];
@@ -169,8 +152,6 @@ static NSString * const kCharacteristicUUID = @"FFE1";
 //断开蓝牙连接
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
-    
-    //    [[WTAppDelegate sharedAppDelegate] showNoticeMsg:@"已断开与蓝牙连接" WithInterval:1.0f];
 }
 
 
@@ -184,7 +165,6 @@ static NSString * const kCharacteristicUUID = @"FFE1";
     for (CBService *service in self.myPeripheral.services) {
         NSLog(@"%@",service.UUID);
         if ([service.UUID isEqual:[CBUUID UUIDWithString:kServiceUUID]]){
-            
             self.service = service;
             break;
         }
@@ -193,7 +173,6 @@ static NSString * const kCharacteristicUUID = @"FFE1";
     if (self.service) {
         
         [self.myPeripheral discoverCharacteristics:nil forService:self.service];
-        
     }
     
 }
@@ -210,10 +189,10 @@ static NSString * const kCharacteristicUUID = @"FFE1";
         if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kCharacteristicUUID]])
         {
             self.characteristic = characteristic;
+            //对此特征设置通知和读取返回数据
             [self.myPeripheral setNotifyValue:YES forCharacteristic:self.characteristic];
             [self.myPeripheral readValueForCharacteristic:self.characteristic];
             [self sendMessageToBle];
-            
             break;
         }
         
@@ -224,7 +203,6 @@ static NSString * const kCharacteristicUUID = @"FFE1";
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
     if (error) {
-        
         NSLog(@"%@",error);
         return;
     } //发送数据失败
@@ -236,14 +214,10 @@ static NSString * const kCharacteristicUUID = @"FFE1";
 {
     if (error) return; //接收特征数据失败
     NSString *value = [[NSString alloc] initWithData:characteristic.value encoding:NSASCIIStringEncoding];
-    NSLog(@"value==============%@",value);
+    NSLog(@"value==============%@",value);//蓝牙返回的信息，需要对蓝牙设备做特殊处理才能按照一定的格式返回数据
     if ([[value lowercaseString] isEqualToString:@"success"]){
         
-        
-        //开门成功，保存数据
-        
     }else if ([[value lowercaseString] isEqualToString:@"fail"]){
-        
         
     }
 }
@@ -276,7 +250,6 @@ static NSString * const kCharacteristicUUID = @"FFE1";
     for (int i = 0; i < strA1.length; i ++) {
         Byte left = (Byte)(A[i] & A1[i]);
         Byte right = (Byte)(B[i] | B1[i]);
-        
         bleData[i] = (Byte)(left ^ right);
     }
     Byte bleMD5[16] ={0};
@@ -311,7 +284,6 @@ static NSString * const kCharacteristicUUID = @"FFE1";
         printf("Could not find characteristic with UUID %s on service with UUID %s on peripheral with UUID %s\r\n",[self CBUUIDToString:cu],[self CBUUIDToString:su],[self UUIDToString:(__bridge CFUUIDRef )p.identifier]);
         return;
     }
-    
     [p setNotifyValue:YES forCharacteristic:characteristic];
     if(characteristic.properties & CBCharacteristicPropertyWriteWithoutResponse)
     {
@@ -349,7 +321,6 @@ static NSString * const kCharacteristicUUID = @"FFE1";
     if (!UUID) return "NULL";
     CFStringRef s = CFUUIDCreateString(NULL, UUID);
     return CFStringGetCStringPtr(s, 0);
-    
 }
 
 -(CBCharacteristic *) findCharacteristicFromUUIDEx:(CBUUID *)UUID service:(CBService*)service {
@@ -360,29 +331,15 @@ static NSString * const kCharacteristicUUID = @"FFE1";
     return nil; //Characteristic not found on this service
 }
 
-
-
 //字符串转byte
 - (Byte *)strToByte:(NSString *)strBefor{
-    
     Byte *bt = (Byte *)malloc(16);
-    
     for (int i =0; i < strBefor.length; i++) {
-        
         int strInt = [strBefor characterAtIndex:i];
-        
         Byte b =  (Byte) ((0xff & strInt) );//( Byte) 0xff&iByte;
-        
         bt[i] = b;
     }
-    
     return bt;
-}
-
-- (void)ooooo:(Byte *)bt LEh:(int)len{
-    for (int i =0; i < len; i++) {
-        NSLog(@"%x",bt[i]);
-    }
 }
 
 @end
