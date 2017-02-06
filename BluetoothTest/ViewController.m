@@ -127,11 +127,13 @@ static NSString * const kCharacteristicUUID = @"FFE1";
 {
     NSString *periName = peripheral.name;
     
-    self.myPeripheral = peripheral;
-    //连接设备
-    [self.mgr connectPeripheral:self.myPeripheral options:nil];
-    //停止扫描蓝牙
-    [self.mgr stopScan];
+    if ([periName isEqualToString:@"28f366bd9138"]){
+        self.myPeripheral = peripheral;
+        //连接设备
+        [self.mgr connectPeripheral:self.myPeripheral options:nil];
+        //停止扫描蓝牙
+        [self.mgr stopScan];
+    }
 }
 
 //连接蓝牙成功
@@ -250,6 +252,7 @@ static NSString * const kCharacteristicUUID = @"FFE1";
     for (int i = 0; i < strA1.length; i ++) {
         Byte left = (Byte)(A[i] & A1[i]);
         Byte right = (Byte)(B[i] | B1[i]);
+        
         bleData[i] = (Byte)(left ^ right);
     }
     Byte bleMD5[16] ={0};
@@ -262,9 +265,15 @@ static NSString * const kCharacteristicUUID = @"FFE1";
     final[13] = 13;
     final[14] = 10;
     
-    NSData *finalData = [NSData dataWithBytes:final length:15];
+    NSString *wificode = @"28f366bd9138#02";
+    NSString *headString = [NSString stringWithFormat:@"#72#33#%@#",wificode];
+    NSData *headData = [headString dataUsingEncoding:NSASCIIStringEncoding];
+    NSData *bodyData = [[NSData alloc] initWithBytes:final length:15];
+    NSMutableData *keyData = [[NSMutableData alloc] init];
+    [keyData appendData:headData];
+    [keyData appendData:bodyData];
     
-    [self writeValue:SERVICE_UUID characteristicUUID:CHAR_UUID p:self.myPeripheral data:finalData];
+    [self writeValue:SERVICE_UUID characteristicUUID:CHAR_UUID p:self.myPeripheral data:keyData];
 }
 
 -(void) writeValue:(int)serviceUUID characteristicUUID:(int)characteristicUUID p:(CBPeripheral *)p data:(NSData *)data {
